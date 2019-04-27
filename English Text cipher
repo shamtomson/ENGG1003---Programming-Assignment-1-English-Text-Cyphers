@@ -1,5 +1,0 @@
- /* C program is to perform the following tasks:
-         1. encryption given an algorith, message text and key
-         2. Decryption given an algorithm, cypher text and key
-         3. Decryption given a cypher text, some assumptions and no key
- */
