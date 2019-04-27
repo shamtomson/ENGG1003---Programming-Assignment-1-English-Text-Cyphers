@@ -5,14 +5,15 @@
 #include <string.h>
 
 void UPPERCASE(char str[]);                             //Function prototype for conversion of lowercase input to uppercase letters with the argument of a string 'str[]'
-void rotationencryption(char inputtext[], char rot);    //Function prototype for 'Encryption of a message with a totation cypher given the message text and rotation amount'. Argument is the string inputtext[] and the char variable 'rot'
-void rotationdecryption(char inputtext2[], char rot);   //Function prototype for 'Decryption of a message encrypted with a rotation cipher given cipher text and rotation amount'. Argument is the string inputtext2[] and the char variable 'rot'
-void substitutionencryption(char inputtext3[], char substitution[]);  //Function prototype for 'Encryption of a message with a substitution cipher given message text and alphabet substitution'
-void substitutiondecryption(char inputtext4[], char substitution2[]); //Function prototype for 'Decryption of a message encrypted with a substitution cipher given cipher text and substitutions'
-void rotationdecryptionhard(char inputtext5[]);         //Function prototype for 'Decryption of a message encrypted with a rotation cipher given cipher text only'
+void rotationencryption(char inputtext[], char rot);    //Function prototype for 'Encryption of a message with a totation cypher given the message text and rotation amount'. Argument is the string 'inputtext[]' and the char variable 'rot'
+void rotationdecryption(char inputtext2[], char rot);   //Function prototype for 'Decryption of a message encrypted with a rotation cipher given cipher text and rotation amount'. Argument is the string 'inputtext2[]' and the char variable 'rot'
+void substitutionencryption(char inputtext3[], char substitution[]);  //Function prototype for 'Encryption of a message with a substitution cipher given message text and alphabet substitution'. Argument is the strings 'inputtext3[]' and 'substitution[]' from the 'key.txt' file
+void substitutiondecryption(char inputtext4[], char substitution2[]); //Function prototype for 'Decryption of a message encrypted with a substitution cipher given cipher text and substitutions'. Argument is the strings 'inputtext4[]' and 'substitution2[]' from the 'key.txt' file
+void rotationdecryptionhard(char inputtext5[]);         //Function prototype for 'Decryption of a message encrypted with a rotation cipher given cipher text only'. Argument is the string 'inputtext5[]'
 
 
 int main() {
+    /* POINTERS TO FILES */
     FILE *selection;    //Pointer to file containing the selection menu
     FILE *rotation;     //Pointer to the file containing rotation amount for rotation cypher decryption and encryption
     FILE *message;      //Pointer to the file containing the message to be encrypted
@@ -33,7 +34,7 @@ int main() {
     
     selection = fopen("selection.txt", "r"); //The pointer is initialised to become information read from the open file 'selection.txt'
     int item;                                //Variable 'item' declared as data type int to store the selection made in file 'selection.txt'
-    fscanf(selection, "%d", &item);          //Selection made by user becomes stored in 'item' as an integer type, if incorrect input is selected the user will be promped by the switch 
+    fscanf(selection, "%d", &item);          //Selection made by user and read from the file pointed at by 'selection' becomes stored in 'item' as an integer type, if incorrect input is selected the user will be promped by the switch 
                                              //... statement to place a correct input value that will allow code to run
     
     /* SWITCH STATEMENT FOR MENU */ 
@@ -44,21 +45,25 @@ int main() {
         
         /* STORING ROTATION AMOUNT FOR ENCRYPTION */
         int rot; //The variable 'rot' is initialised as an integer that will be used to store the rotation amount
-        printf("Enter the rotation amount into 'rotation.txt' file:\n"); //This is a user prompt to enter the rotation amount
-        rotation = fopen("rotation.txt", "r");
-        fscanf(rotation, "%d", &rot);    //this stores the rotation amount as a integer variable 
+        printf("Enter the rotation amount into 'rotation.txt' file:\n"); //This is a user prompt to enter the desired rotation amount
+        rotation = fopen("rotation.txt", "r");    //The pointer 'rotation' is initialised to become information read from the open file 'rotation.txt'
+                                                  //The information will be the desired rotation amount of the user (how much each letter will be rotated)
+        fscanf(rotation, "%d", &rot);             //The information read from the file pointed at by 'rotation'becomes stored as a integer variable; 'rot'.
         
         /* FINDING MESSAGE */
-        printf("Enter the message to be encrypted into 'message.txt' file:\n\n"); //This promts user to enter the encrypted message to be decrypted
-        char inputtext[1023]; //this is an array of type char which will store each character entered into input
-        message = fopen("message.txt", "r");
+        printf("Enter the message to be encrypted into 'message.txt' file:\n\n"); //This promts user to enter the encrypted message to be decrypted into the file 'message.txt'
+        char inputtext[1023];                 //The array of type char 'inputtext' will store each character entered into input. It is given a length 1023 to minimise memory use as it is assumed the input will be less than 1000 characters
+        message = fopen("message.txt", "r");  //The pointer 'message' is initialised to become the information read from the open file 'message.txt'
+                                              //This information is necessary in order to produce an output which takes a desired message from the user.
         fscanf(message,"%[^\n]s", inputtext); //This stores the input text into array as a string, also ensuring that all whitespace remains using %[^\n]s
                                              
-                                             /* CONVERTING MESSAGE TO UPPERCASE */
-        UPPERCASE(inputtext);
-                                             
-                                             /* PASSING MESSAGE TO FUNCTION */
-        rotationencryption(inputtext, rot);
+        /* CONVERTING MESSAGE TO UPPERCASE */
+        UPPERCASE(inputtext);                 //The function 'UPPERCASE' is called to convert the message to be encrupted (stored in inputtext) to uppercase letters before the rotation takes place
+                                              //This simplifies the process by working within a smaller ASCII range, similarly minimising the length of the code.
+                                              //The output will be stored in the string 'inputtext[]' to be used in the encrypting function
+       
+        /* PASSING MESSAGE TO ROTATION ENCRYPTION FUNCTION */
+        rotationencryption(inputtext, rot);  //The function 'rotationencryption' is called with an argument of the string 'inputtext' and the desired rotation amount stored in 'rot'
         break;
         
         
