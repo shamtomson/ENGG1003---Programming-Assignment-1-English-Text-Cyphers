@@ -31,52 +31,54 @@ int main() {
     printf("     4. Decryption of a message encrypted with a substitution cypher given cypher text and substitutions\n");
     printf("     5. Decryption of a message encrypted with a rotation cypher given cypher text only\n");
     printf("     6. Decryption of a message encrypted with a substitution cypher given cypher text only\n\n");
+    //Each selection option denotes a part of the assesmnet to be tested upon thereby making it easy for the user (typically an ENGG1300 marker) to select a desired task to test
+    
     
     selection = fopen("selection.txt", "r"); //The pointer is initialised to become information read from the open file 'selection.txt'
     int item;                                //Variable 'item' declared as data type int to store the selection made in file 'selection.txt'
-    fscanf(selection, "%d", &item);          //Selection made by user and read from the file pointed at by 'selection' becomes stored in 'item' as an integer type, if incorrect input is selected the user will be promped by the switch 
-                                             //... statement to place a correct input value that will allow code to run
+    fscanf(selection, "%d", &item);          //Selection made by user and read from the file pointed at by 'selection' becomes stored in 'item' as an integer type, if incorrect input is selected the user will be promped by the switch statement to place a correct input value that will allow code to run
     
     /* SWITCH STATEMENT FOR MENU */ 
-    switch (item){  //Switch stement determines the correct code to be run according to the input selected by user and stored within the variable 'item'
+    switch (item){  //Switch stement determines the correct code to be run according to the input selected by user and stored within the variable 'item' hence the argument of 'item'
+   /* TASK 1 */
         case(1):    //Case 1 will run if the user input in 'selection.txt' was '1' and the user selected Encryption of a message with a rotation cypher given the message text and rotation amount
-        printf("You selected:\n     1. Encryption of a message encrypted with a rotation cypher given cypher text and rotation amount\n\n"); //printf output assures user that the correct and
-                                                                                                                                             //.. desired selection was made
+        printf("You selected:\n     1. Encryption of a message encrypted with a rotation cypher given cypher text and rotation amount\n\n"); //printf output assures user that the correct and desired task was selected                                                                                                                                             
         
         /* STORING ROTATION AMOUNT FOR ENCRYPTION */
-        int rot; //The variable 'rot' is initialised as an integer that will be used to store the rotation amount
-        printf("Enter the rotation amount into 'rotation.txt' file:\n"); //This is a user prompt to enter the desired rotation amount
+        int rot; //The variable 'rot' is initialised as an integer that will be used to store the rotation amount to be used in the function 'rotationencryption()' for encryption
+        printf("Enter the rotation amount into 'rotation.txt' file:\n"); //This is a user prompt to enter the desired rotation amount into the file 'rotation.txt'
         rotation = fopen("rotation.txt", "r");    //The pointer 'rotation' is initialised to become information read from the open file 'rotation.txt'
                                                   //The information will be the desired rotation amount of the user (how much each letter will be rotated)
         fscanf(rotation, "%d", &rot);             //The information read from the file pointed at by 'rotation'becomes stored as a integer variable; 'rot'.
         
-        /* FINDING MESSAGE */
+        /* STORING USER INPUT MESSAGE FOR ENCRYPTION */
         printf("Enter the message to be encrypted into 'message.txt' file:\n\n"); //This promts user to enter the encrypted message to be decrypted into the file 'message.txt'
         char inputtext[1023];                 //The array of type char 'inputtext' will store each character entered into input. It is given a length 1023 to minimise memory use as it is assumed the input will be less than 1000 characters
         message = fopen("message.txt", "r");  //The pointer 'message' is initialised to become the information read from the open file 'message.txt'
                                               //This information is necessary in order to produce an output which takes a desired message from the user.
-        fscanf(message,"%[^\n]s", inputtext); //This stores the input text into array as a string, also ensuring that all whitespace remains using %[^\n]s
+        fscanf(message,"%[^\n]s", inputtext); //This stores the input text into array as a string, also ensuring that all whitespace remains using %[^\n]s format specifier
                                              
         /* CONVERTING MESSAGE TO UPPERCASE */
-        UPPERCASE(inputtext);                 //The function 'UPPERCASE' is called to convert the message to be encrupted (stored in inputtext) to uppercase letters before the rotation takes place
+        UPPERCASE(inputtext);                 //The function 'UPPERCASE' is called to convert the message to be encrupted (stored in inputtext) to uppercase letters before the rotation takes place. This appeases to the assigment criteria simltaneously simplifying the computation
                                               //This simplifies the process by working within a smaller ASCII range, similarly minimising the length of the code.
                                               //The output will be stored in the string 'inputtext[]' to be used in the encrypting function
        
         /* PASSING MESSAGE TO ROTATION ENCRYPTION FUNCTION */
-        rotationencryption(inputtext, rot);  //The function 'rotationencryption' is called with an argument of the string 'inputtext' and the desired rotation amount stored in 'rot'
-        break;
+        rotationencryption(inputtext, rot);  //The function 'rotationencryption()' is called with an argument of the string 'inputtext' and the desired rotation amount stored in 'rot'
+        break;                               //Break statement causes the compiler to exit the switch statement as all the necessary coding tasks have been completed
         
+ /* TASK 2 */ 
+        case(2):                       //Case 2 will run if the user input in 'selection.txt' was '2' and the user selected Decryption of a message encrypted with a rotation cipher given cipher text and rotation amount
+        printf("You selected:\n     2. Decryption of a message encrypted with a rotation cypher given cypher text and rotation amount\n\n");  //printf output assures user that the correct and desired task was selected                                                                                                                                             
         
-        case(2):
-        printf("You selected:\n     2. Decryption of a message encrypted with a rotation cypher given cypher text and rotation amount\n\n");
-  
-                                                 /* FINDING ROTATION */
-        printf("Enter the rotation amount into 'rotation.txt' file:\n"); //This is a user prompt to enter the rotation amount
-        rotation = fopen("rotation.txt", "r");
-        fscanf(rotation, "%d", &rot);    //this stores the rotation amount as a integer variable 
+        /* STORING ROTATION AMOUNT FOR DECRYPTION */
+        printf("Enter the rotation amount into 'rotation.txt' file:\n"); //This is a user prompt to enter the rotation decryption amount into the file 'rotation.txt'
+        rotation = fopen("rotation.txt", "r"); //The pointer 'rotation' is initialised to become information read from the open file 'rotation.txt'
+                                               //The information will be the rotation amount of the cypher text (how much each letter has beeen rotated)
+        fscanf(rotation, "%d", &rot);          //The information read from the file pointed at by 'rotation'becomes stored as a integer variable; 'rot'. 
     
-                                                /* FINDING CYPHER TEXT */
-        printf("Enter the encrypted message into 'encryptedmessage.txt' file:\n"); //This promts user to enter the encrypted message to be decrypted
+        /* STORING USER CYPHER TEXT FOR DECRYPTION */
+        printf("Enter the encrypted message into 'encryptedmessage.txt' file:\n");  //This promts user to enter the encrypted message to be decrypted
         char inputtext2[1023]; //this is an array of type char which will store each character entered into input
         encryptedmessage = fopen("encryptedmessage.txt", "r");
         fscanf(encryptedmessage,"%[^\n]s", inputtext2); //This stores the input text into array as a string, also ensuring that all whitespace remains using %[^\n]s
