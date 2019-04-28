@@ -10,6 +10,7 @@ void rotationdecryption(char inputtext2[], char rot);   //Function prototype for
 void substitutionencryption(char inputtext3[], char substitution[]);  //Function prototype for 'Encryption of a message with a substitution cipher given message text and alphabet substitution'. Argument is the strings 'inputtext3[]' and 'substitution[]' from the 'key.txt' file
 void substitutiondecryption(char inputtext4[], char substitution2[]); //Function prototype for 'Decryption of a message encrypted with a substitution cipher given cipher text and substitutions'. Argument is the strings 'inputtext4[]' and 'substitution2[]' from the 'key.txt' file
 void rotationdecryptionhard(char inputtext5[]);         //Function prototype for 'Decryption of a message encrypted with a rotation cipher given cipher text only'. Argument is the string 'inputtext5[]'
+void substitutiondecryptionhard(char inputtext6[]); 
 
 
 int main() {
@@ -78,12 +79,14 @@ int main() {
         fscanf(rotation, "%d", &rot);          //The information read from the file pointed at by 'rotation'becomes stored as a integer variable; 'rot'. 
     
         /* STORING USER CYPHER TEXT FOR DECRYPTION */
-        printf("Enter the encrypted message into 'encryptedmessage.txt' file:\n");  //This promts user to enter the encrypted message to be decrypted
-        char inputtext2[1023]; //this is an array of type char which will store each character entered into input
-        encryptedmessage = fopen("encryptedmessage.txt", "r");
-        fscanf(encryptedmessage,"%[^\n]s", inputtext2); //This stores the input text into array as a string, also ensuring that all whitespace remains using %[^\n]s
+        printf("Enter the encrypted message into 'encryptedmessage.txt' file:\n");  //This promts user to enter the encrypted message to be decrypted into the file 'encryptedmessage.txt'
+        char inputtext2[1023];                                                      //A char array/string, 'inputtext2' of type char will store each character entered into input. It is given a length 1023 to minimise memory use as it is assumed the input will be less than 1000 characters
+                                                                                    //Using the same array as previous task may result in compiler warnings and errors, it is simpler to create a new array for each task.
+        encryptedmessage = fopen("encryptedmessage.txt", "r");    //The pointer 'encryptedmessage' is initialised to become the information read from the open file 'encryptedmessage.txt'
+                                                                  //This information is necessary in order to produce an output which takes a desired cypher message from the user.
+        fscanf(encryptedmessage,"%[^\n]s", inputtext2);           //This stores the input text into array as a string (inputtext2[]), also ensuring that all whitespace remains using %[^\n]s
                                              
-                                              /* CONVERTING MESSAGE TO UPPERCASE */
+        /* CONVERTING CYPHER TEXT TO UPPERCASE */
         UPPERCASE(inputtext2);
                                                
                                                /* PASSING MESSAGE TO FUNCTION */
@@ -152,13 +155,16 @@ int main() {
         break;
         
         case(6):
-        printf("You selected: Decryption of a message encrypted with a substitution cypher given cypher text only\n\n");
-        
-        
-        
-        
-        
-        
+        printf("You selected:\n     6. Decryption of a message encrypted with a substitution cypher given cypher text only\n\n");
+
+        printf("Enter the encrypted message into 'encryptedmessage.txt' file:\n"); //This promts user to enter the encrypted message to be decrypted
+        char inputtext6[1023]; //this is an array of type char which will store each character entered into input
+        encryptedmessage = fopen("encryptedmessage.txt", "r");
+        fscanf(encryptedmessage,"%[^\n]s", inputtext6);
+
+        UPPERCASE(inputtext6);
+
+        substitutiondecryptionhard(inputtext6);
         break;
         
         default:
@@ -566,6 +572,86 @@ void rotationdecryptionhard(char inputtext5[]){
     rot = (26 + rot) - 'N'; }
   printf("\n\nThe rotation amount is likely %d if the most common letter is N\n" , rot);
   rotationdecryption(inputtext5, rot);
+  
+}
+
+void substitutiondecryptionhard(char inputtext6[]){
+    
+  int length; //this variable will be used for the length so that function only converts parts of the array within the string lenth
+  length = strlen(inputtext6); //determines the length of string found within the inputtetx array
+  
+  if(length > 30){
+      char ArrayForMostUsed2[1024] = { 0 };
+      int i = 0;
+      int max, insidearray, index = 0;
+      for (i = 0; inputtext6[i] != 0; i++) {
+          insidearray = inputtext6[i];
+          ++ArrayForMostUsed2[insidearray];
+          }
+      max = ArrayForMostUsed2[0];
+      for (i = 0; inputtext6[i] != 0; i++) {
+          insidearray = inputtext6[i];
+          if ((ArrayForMostUsed2[insidearray] > max) && (inputtext6[i] != 32)) {
+              insidearray = inputtext6[i];
+              max = ArrayForMostUsed2[insidearray];
+              index = i; 
+              
+          } 
+           
+      }
+      printf ("The most used character is: %c\n", inputtext6[index]); //we assume the letter most used is either e, or t
+      printf ("The value of most common character is %d\n\n", inputtext6[index]);
+      printf("Since the encrypted message is greater than 30 characters it is likely the most common letter of the cypher %c has been substituted for either E, T, or A as these are the most commonly appearing letters in an English sentence.\n\n",
+     inputtext6[index]);
+     
+     char mostcommonletter = inputtext6[index];
+     printf("The encrypted cypher message with one substitution complete and assuming the most common letter is E  is:\n");
+     i = 0;
+     while(i <= length){
+         if(inputtext6[i] == mostcommonletter){
+             printf("E");
+             i++;
+             
+         }
+         else{
+             printf("%c", inputtext6[i]);
+             i++;
+         }
+     }
+     printf("\n\n");
+     printf("The encrypted cypher message with one substitution complete and assuming the most common letter is T  is:\n");
+     i = 0;
+     while(i <= length){
+         if(inputtext6[i] == 'E'){
+             printf("T");
+             i++;
+             
+         }
+         else{
+             printf("%c", inputtext6[i]);
+             i++;
+         }
+     }
+     printf("\n\n");
+     printf("The encrypted cypher message with one substitution complete and assuming the most common letter is A  is:\n");
+     i = 0;
+     while(i <= length){
+         if(inputtext6[i] == 'T'){
+             printf("A");
+             i++;
+             
+         }
+         else{
+             printf("%c", inputtext6[i]);
+             i++;
+         }
+     }
+     printf("\n\n");
+  }
+  
+  else{
+      printf("Encrypted cypher message is too small to accurately decrypt, please add more cypher text");
+  }
   
 }
 
