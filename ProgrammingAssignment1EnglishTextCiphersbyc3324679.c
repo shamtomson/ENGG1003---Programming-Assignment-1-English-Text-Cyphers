@@ -20,6 +20,7 @@ int main() {
     FILE *message;      //Pointer to the file containing the message to be encrypted
     FILE *encryptedmessage;    //Pointer to the file containg an encrypted message to be decrypted
     FILE *thekey;       //Pointer to the file containing the 26 letter key for a substitution cypher
+    FILE *output;       //The result of the coding encryption/decryption will be sent to the file 'output.txt' pointed to by 'output'
     
     /* USER FRIENDLY MENU SYSTEM */
     printf("Please select from the following menu by entering the integer of desired pathway");
@@ -44,6 +45,8 @@ int main() {
    /* TASK 1 */
         case(1):    //Case 1 will run if the user input in 'selection.txt' was '1' and the user selected Encryption of a message with a rotation cypher given the message text and rotation amount
         printf("You selected:\n     1. Encryption of a message encrypted with a rotation cypher given cypher text and rotation amount\n\n"); //printf output assures user that the correct and desired task was selected                                                                                                                                             
+        
+        output = fopen("output.txt", "w");   
         
         /* STORING ROTATION AMOUNT FOR ENCRYPTION */
         int rot; //The variable 'rot' is initialised as an integer that will be used to store the rotation amount to be used in the function 'rotationencryption()' for encryption
@@ -72,6 +75,8 @@ int main() {
         case(2):                       //Case 2 will run if the user input in 'selection.txt' was '2' and the user selected Decryption of a message encrypted with a rotation cipher given cipher text and rotation amount
         printf("You selected:\n     2. Decryption of a message encrypted with a rotation cypher given cypher text and rotation amount\n\n");  //printf output assures user that the correct and desired task was selected                                                                                                                                             
         
+        output = fopen("output.txt", "w");
+         
         /* STORING ROTATION AMOUNT FOR DECRYPTION */
         printf("Enter the rotation amount into 'rotation.txt' file:\n"); //This is a user prompt to enter the rotation decryption amount into the file 'rotation.txt'
         rotation = fopen("rotation.txt", "r"); //The pointer 'rotation' is initialised to become information read from the open file 'rotation.txt'
@@ -93,11 +98,11 @@ int main() {
         rotationdecryption(inputtext2, rot); 
         break;
         
-        
-        
+
         case(3):
         printf("You selected:\n     3. Encryption of a message with a substitution cypher given the message text and alphabet substitution\n\n");
         
+        output = fopen("output.txt", "w");
                                                 /*FINDING SUBSTITUTION KEY */                                      
         char substitution[26]; 
         printf("Enter the substitution key into 'key.txt' file:\n"); 
@@ -123,6 +128,8 @@ int main() {
         case(4):
         printf("You selected:\n     4. Decryption of a message encrypted with a substitution cypher given cypher text and substitutions\n\n");
          
+        output = fopen("output.txt", "w");
+            
         char substitution2[26]; 
         printf("Enter the substitution key into 'key.txt' file:\n"); 
         thekey = fopen("key.txt", "r");
@@ -143,6 +150,8 @@ int main() {
         case(5):
         printf("You selected:\n     5. Decryption of a message encrypted with a rotation cypher given cypher text only\n\n");
         
+        output = fopen("output.txt", "w");
+            
         printf("Enter the encrypted message into 'encryptedmessage.txt' file:\n"); //This promts user to enter the encrypted message to be decrypted
         char inputtext5[1023]; //this is an array of type char which will store each character entered into input
         encryptedmessage = fopen("encryptedmessage.txt", "r");
@@ -156,6 +165,8 @@ int main() {
         
         case(6):
         printf("You selected:\n     6. Decryption of a message encrypted with a substitution cypher given cypher text only\n\n");
+            
+        output = fopen("output.txt", "w");
 
         printf("Enter the encrypted message into 'encryptedmessage.txt' file:\n"); //This promts user to enter the encrypted message to be decrypted
         char inputtext6[1023]; //this is an array of type char which will store each character entered into input
