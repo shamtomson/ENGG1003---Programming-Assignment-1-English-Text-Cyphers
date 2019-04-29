@@ -41,7 +41,7 @@ int main() {
     
     /* SWITCH STATEMENT FOR MENU */ 
     switch (item){  //Switch stement determines the correct code to be run according to the input selected by user and stored within the variable 'item' hence the argument of 'item'
-   /* TASK 1 */
+/* TASK 1 */
         case(1):    //Case 1 will run if the user input in 'selection.txt' was '1' and the user selected Encryption of a message with a rotation cypher given the message text and rotation amount
         printf("You selected:\n     1. Encryption of a message encrypted with a rotation cypher given cypher text and rotation amount\n\n"); //printf output assures user that the correct and desired task was selected                                                                                                                                             
         
@@ -87,127 +87,138 @@ int main() {
         fscanf(encryptedmessage,"%[^\n]s", inputtext2);           //This stores the input text into array as a string (inputtext2[]), also ensuring that all whitespace remains using %[^\n]s
                                              
         /* CONVERTING CYPHER TEXT TO UPPERCASE */
-        UPPERCASE(inputtext2);
+        UPPERCASE(inputtext2);                                    //The input string stored in 'inputtext2' is passed as the function argument for UPPERCASE() function
+                                                                  //This function will convert the user input to UPPERCASE letters simplifying the decryption process
                                                
-                                               /* PASSING MESSAGE TO FUNCTION */
-        rotationdecryption(inputtext2, rot); 
-        break;
+        /* PASSING MESSAGE TO ROTATION DECRYPTING FUNCTION */
+        rotationdecryption(inputtext2, rot);                      //The encrypted cypher message stored in 'inputtext2[]' and its rotated amount stored in 'rot' is passed to the function rotationdecryption as its function argument
+                                                                  //The output of the function will be sent to both .a/.out and the file 'output.txt' by the function
+        break;                                                    //break statement teslls the compiler that all the correct code has been read and to exit switch statement
         
+/* TASK 3 */
+        case(3):                               //Case 3 will run if the user input in 'selection.txt' was '3' and the user selected Encryption of a message with a substitution cypher given the message text and alphabet substitution 
+        printf("You selected:\n     3. Encryption of a message with a substitution cypher given the message text and alphabet substitution\n\n"); //printf output assures user that the correct and desired task was selected
         
+        /* STORING SUBSTITUTION KEY FROM USER INPUT */                                      
+        char substitution[26];    //A char array/string 'substitution is declared to store the substitution key for encryption
+                                  //At the same time it is given a length of 26 as the key must be 26 letters as no single letter may repeat in a substitution cypher
+        printf("Enter the substitution key of 26 letters into 'key.txt' file:\n"); //The user is prompted by the printf() statement to enter the 26 letter key into 'key.txt' file
+        thekey = fopen("key.txt", "r");          //The pointer variable 'thekey' is initialised as the open file 'key.txt'. This file is a read only file
+                                                 //The function fopen() opens the 'key.txt' file to be read
+        fscanf(thekey,"%[^\n]s", substitution);  //The user input from the file 'key.txt' pointed at by 'thekey is stored in the char array 'substitution' to be used in encryption
         
-        case(3):
-        printf("You selected:\n     3. Encryption of a message with a substitution cypher given the message text and alphabet substitution\n\n");
-        
-                                                /*FINDING SUBSTITUTION KEY */                                      
-        char substitution[26]; 
-        printf("Enter the substitution key into 'key.txt' file:\n"); 
-        thekey = fopen("key.txt", "r");
-        fscanf(thekey,"%[^\n]s", substitution);
-        
-                                               /* FINDING MESSAGE TO BE ENCRYPTED */
-        char inputtext3[1026];
-        printf("Enter the message to be encrypted into 'message.txt' file:\n\n");
-        message = fopen("message.txt", "r");
-        fscanf(message,"%[^\n]s", inputtext3); //This stores the input text into array as a string, also ensuring that all whitespace remains using %[^\n]s
+        /* STORING MESSAGE TO BE ENCRYPTED FROM USER INPUT */
+        char inputtext3[1023];    //A char array 'inputtext4[]' is created of length 1023 which will store the input text of user/message to be encrypted
+        printf("Enter the message to be encrypted into 'message.txt' file:\n\n");  //printf() statement promps the user to emter the message to be encrypted into the correct file
+        message = fopen("message.txt", "r");   //The pointer variable 'message' is initialised as the opened file 'message.txt' which is a read only file
+        fscanf(message,"%[^\n]s", inputtext3); //fscanf() stores the input text into array 'inputtext3[]' as a string, also ensuring that all whitespace remains using %[^\n]s format specifier
                             
-                                              /* CONVERTING MESSAGE TO UPPERCASE */
-        UPPERCASE(inputtext3);
-        UPPERCASE(substitution);
+        /* CONVERTING MESSAGE TO UPPERCASE */
+        UPPERCASE(inputtext3);    //The message to be encrypted stored in 'inputtext3' is passed to the function 'UPPERCASE()' which will convert the message to uppercase letters in order to simplify the encryption process
+        UPPERCASE(substitution);  //The substitution encryption key stored in 'substitution is passed to the function 'UPPERCASE' which will convert the 26 letter key to uppercase letters
                                         
-                                                /* PASSING MESSAGE TO FUNCTION */
-        substitutionencryption(inputtext3, substitution);
+        /* PASSING MESSAGE AND SUBSTITUTION KEY TO FUNCTION */
+        substitutionencryption(inputtext3, substitution); //Both the message to be encrypted (stored in 'inputtext3') and the substitution key (stored in 'substitution') are passed to the function 'substitutionencryption()'
+                                                          //The function substitutionencryption() will process the input message and substitution key to produce an encrypted message
         
+        break;                    //'break' statement tells compiler to exit the switch() flow control
         
-        break;
+        case(4):                                   //Case 4 will run if the user input in 'selection.txt' was '4' 
+        printf("You selected:\n     4. Decryption of a message encrypted with a substitution cypher given cypher text and substitutions\n\n"); //printf output assures user that the correct and desired task was selected
         
-        case(4):
-        printf("You selected:\n     4. Decryption of a message encrypted with a substitution cypher given cypher text and substitutions\n\n");
+        /* STORING SUBSTITUTION FROM USER INPUT FILE */
+        char substitution2[26];          //A char array is created which will store the 26 letter substitution key within 'substitution2[]'. It is given a length of 26 as there is only 26 possible substitutions
+        printf("Enter the 26 letter substitution key into 'key.txt' file:\n");       //printf statement promps the user to enter the substitution key into the correct file
+        thekey = fopen("key.txt", "r");  //The pointed 'thekey' is initialised as the open file 'key.txt'. The file is a read (r) only file which will hold the substitution key to be read
+        fscanf(thekey,"%[^\n]s", substitution2);   //fscanf() function stores the substitution key entered by the user into the file 'key.txt' into the char array 'substitution2' that will be used to decrypt the cypher message
+        
+        /* STORING MESSAGE TEXT FROM USER INPUT FILE */
+        printf("Enter the encrypted message into 'encryptedmessage.txt' file:\n\n"); //This promts user to enter the encrypted message to be decrypted into the correct file
+        char inputtext4[1023];          //An array of type char ('inputtext4[]')is created which will store each character entered into input
+        encryptedmessage = fopen("encryptedmessage.txt", "r"); //The pointer 'encryptedmessage' is initialised as the open file 'encryptedmessage.txt' which contains the encrypted message to be decrypted
+                                                               //The fopen() function opens the file 'encryptedmessage.txt' as a read only file
+        fscanf(encryptedmessage,"%[^\n]s", inputtext4);        //fscanf() stores th input text from the file ponted at by 'encryptedmessage' and srores it within the char array 'inputtext4[]' to be used in the decryption function
+    
+        /* CONVERTING USER INPUT AND SUBSTITUTION KEY TO UPPERCASE LETTERS */
+        UPPERCASE(substitution2);       //The substitution key stored in 'substitution2[]' is passed to the 'UPPERCASE()' function which will convert the key to uppercase letters
+        UPPERCASE(inputtext4);          //The encrypted message stored in 'inputtext4[]' is also converted to uppercase by passing message to the 'UPPERCASE()' function
+        
+        /* PASSING THE ENCRYPTED MESSAGE AND SUBSTITUTION KEY TO DECRYPTING FUNCTION */
+        substitutiondecryption(inputtext4, substitution2);     //Following conversion to uppercase, both the encrypted message and substitution key is passed to the 'substitutiondecryption' function as its function argument
+                                                               //The function will send output to both a./.out and the file 'output.txt'
+        break;                           //break statemnet tells compiler to exit the switch flow control
          
-        char substitution2[26]; 
-        printf("Enter the substitution key into 'key.txt' file:\n"); 
-        thekey = fopen("key.txt", "r");
-        fscanf(thekey,"%[^\n]s", substitution2);
-  
-        printf("Enter the encrypted message into 'encryptedmessage.txt' file:\n\n"); //This promts user to enter the encrypted message to be decrypted
-        char inputtext4[1023]; //this is an array of type char which will store each character entered into input
-        encryptedmessage = fopen("encryptedmessage.txt", "r");
-        fscanf(encryptedmessage,"%[^\n]s", inputtext4);
-    
-        UPPERCASE(substitution2);
-        UPPERCASE(inputtext4);
-    
-        substitutiondecryption(inputtext4, substitution2);
+        case(5):                         //Case 5 will run if the user input in 'selection.txt' was '5' 
+        printf("You selected:\n     5. Decryption of a message encrypted with a rotation cypher given cypher text only\n\n");  //printf output assures user that the correct and desired task was selected
+        /* STORING THE MESSAGE TO BE DECRYPTED FROM USER INPUT FILE */ 
+        printf("Enter the encrypted message into 'encryptedmessage.txt' file:\n"); //This promts user to enter the encrypted message to be decrypted into the correct file
+        char inputtext5[1023];          //An array of type char is created which will store each character entered into input in 'inputtext5'
+        encryptedmessage = fopen("encryptedmessage.txt", "r"); //The pointed 'encryptedmessage' is initialised as the open file 'encryptedmessage.txt'
+                                                               //The fopen() function opens the dile as a read only file
+        fscanf(encryptedmessage,"%[^\n]s", inputtext5);        //fscanf() stores the encrypted message from user into the char array 'inputtext5[]', also ensuring to take all whitespace
+        /* CONVERTING THE ENCRYPTED MESSAGE TO UPPERCASE */
+        UPPERCASE(inputtext5);          //The user input/encrypted message is passed as the function argument of 'UPPERCAS()' which will convert all input to uppercase letters
+        /* PASSING THE ENCRYPTED MESSAGE TO DECRYPTING FUNCTION */
+        rotationdecryptionhard(inputtext5);                    //The encrypted message once converted to uppercase in passed to the decrypting function which will produce the correct output for user
+                                        //The function 'rotationdecryptionhard()' will send output to both a./.out and the file 'output'
+        break;                          //break statemnet tells compiler to exit the switch flow control
+/* TASK 6 */
+        case(6):                        //Case 6 will run if the user input in 'selection.txt' was '6' 
+        printf("You selected:\n     6. Decryption of a message encrypted with a substitution cypher given cypher text only\n\n"); //printf output assures user that the correct and desired task was selected
+        /* STORING ENCRYPTED MESSAGE FROM USER INPUT FILE */
+        printf("Enter the encrypted message into 'encryptedmessage.txt' file:\n"); //This promts user to enter the encrypted message to be decrypted into the correct file
+        char inputtext6[1023];         //An array of type char is created which will store each character entered into input in 'inputtext6[]'
+        encryptedmessage = fopen("encryptedmessage.txt", "r"); //The pointer 'encryptedmessage' is initialised as the open file 'encryptedmessage.txt' that contains the user input and message to be decrypted
+        fscanf(encryptedmessage,"%[^\n]s", inputtext6);        //fscanf() takes the user input from file pointed at by encrypted message and stores it in the char array 'inputtext6[]' for decryption
+        /* CONVERTING ENCRYPTED MESSAGE TO UPPERCASE LETTERS */
+        UPPERCASE(inputtext6);         //The encrypted message is passed to the 'UPPERCASE()' function which will convert all letters to uppercase for decryption
+        /* PASSING ENCRYPTED MESSAGE TO DECRYPTING FUNCTION */
+        substitutiondecryptionhard(inputtext6);                //Once converted to uppercase the encrypted message stored in 'inputtext6[]' is passed to the 'substitutiondecryptionhard[]' function to decrypt cypher message
+                                                               //The output of function will be sent to both a./.out and the output file 'output.txt'
+        break;                          //break statement tells compiler to exit the switch flow control
         
-        break;
-        
-        case(5):
-        printf("You selected:\n     5. Decryption of a message encrypted with a rotation cypher given cypher text only\n\n");
-        
-        printf("Enter the encrypted message into 'encryptedmessage.txt' file:\n"); //This promts user to enter the encrypted message to be decrypted
-        char inputtext5[1023]; //this is an array of type char which will store each character entered into input
-        encryptedmessage = fopen("encryptedmessage.txt", "r");
-        fscanf(encryptedmessage,"%[^\n]s", inputtext5);
-
-        UPPERCASE(inputtext5);
-        
-        rotationdecryptionhard(inputtext5);
-        
-        break;
-        
-        case(6):
-        printf("You selected:\n     6. Decryption of a message encrypted with a substitution cypher given cypher text only\n\n");
-
-        printf("Enter the encrypted message into 'encryptedmessage.txt' file:\n"); //This promts user to enter the encrypted message to be decrypted
-        char inputtext6[1023]; //this is an array of type char which will store each character entered into input
-        encryptedmessage = fopen("encryptedmessage.txt", "r");
-        fscanf(encryptedmessage,"%[^\n]s", inputtext6);
-
-        UPPERCASE(inputtext6);
-
-        substitutiondecryptionhard(inputtext6);
-        break;
-        
-        default:
-        printf("Please try again by selecting an option from the menu\n");
+        default:                        //default will only run if incorrect input is enterd into the 'selection.txt' file, or otherwise no selection is made.
+        printf("Please try again by selecting an option from the menu\n"); //printf statement tells the user to enter a correct input by selecting an option from the menu selection
     }
     
-   fclose(selection); 
+   fclose(selection); //The file 'selection.txt' pointed at by selection is closes as it is no longer needed
    
-return 0;
+return 0;             //Compiler exits code as it has reached the end of executable statemnets within the function main()
 }
 
 /* UPPERCASE FUNCTION */
-void UPPERCASE(char str[])
+void UPPERCASE(char str[])              //Function definition for uppercase with the argument of a char array/string
 {
-   int i = 0;			
-   int length;
-   length = strlen (str);
-   printf ("length is %d\n", length);
-   while (i < length) {
-      if ((str[i] > 96) && (str[i] < 123)) {
-          str[i] = str[i] - 32; 
+   int i = 0;		   //An integer 'i' is declared = to zero which will be used to access element of the user input string	
+   int length;             //The variable length is declared as an integer which will be used to store the length of the user input string
+   length = strlen (str);  //The length variable is made equal to the length of the string 
+                           //Length of the string is produced by calling the function 'strlen()' and placing the string as its argument
+   printf ("length is %d\n", length);   //Sending the length to a./.out aids in the debugging process and alows user to see what the compiler is processing 
+   while (i < length) {    //A while runs through each element within the string that is of use (< length)
+                           //Any element >length of the string is considered garbage and therefore not necessary to convert
+      if ((str[i] > 96) && (str[i] < 123)) {                           //if statemnet runs for elements of the string that are within the ASCII lowercase letter range (97-122)
+          str[i] = str[i] - 32;         //Elements of the string that are within the ASCII lowercase value range are substituted 32 values as the difference between each correspondng lowercase-uppercase letter is 32
+                                        //Therefore, each lowercase element becomes its corresponding uppercase value
           }
-      i++;
+      i++;                 //The counter variable i is incremented so that while loop continues to run through each element of the input string
     }
-    printf("The string converted to uppercase letters is: %s\n", str);
+    printf("The string converted to uppercase letters is: %s\n", str); //printf statement sends the message converted to uppercase to a./.out to aid in debugging  and allow to recognise the processes occuring within the compiler
 }
 
-
 /* TASK 1 FUNCTION */
-void rotationencryption(char inputtext[], char rot)
-
+void rotationencryption(char inputtext[], char rot) //Function definition for rotationencryption function is provided that takes the user input of the message to be encrypted and the rotation amount
 {
     FILE *output;  //This is a pointer to the file 'output.txt' where the encrypted message will be sent to (as well as .a/.out)
     output = fopen("output.txt", "w");  //The pointer output is initialised as the open file 'output.txt' where information will be written to, hence the 'w'  
-    int length; 
-    length = strlen(inputtext); 
-    printf("The length is: %d\n", length);
-    int i = 0; 
-    char letter = 1; 
-    printf("The message: %s. With a rotation %d is:\n", inputtext, rot); 
+    int length;    //The variable length is declared as an integer and will hold the length of the user input/message to be encrypted
+    length = strlen(inputtext);         //The variable length becomes the length of the user input by calling the function 'strlen()' with the argument of the user input
+    printf("The length is: %d\n", length);          //printf statement prints the length of the string to a./.out to aid in debugging and allow the user to recognise the processes occuring within the compiler
+    int i = 0;     // a counting integer 'i' is declared to access seperate elements of the user input message string
+    char letter = 1;                    //The char variable 'letter' is initialised to simplify the encryption process as each element will be seperately stored in this variable before being sent to a./.out and output file
+    printf("The message: %s. With a rotation %d is:\n", inputtext, rot); //printf statement tells the user the rotation and message that has been entered into the input Files to ensure that correct data and information has been compiled 
     
-    while(i < length){
-        if((inputtext[i] > 90 - rot) && (inputtext[i] <= 90)){ //uppercase is from 65-90 in ASCII table
+    while(i < length){                  //while loop is made to run through each element of the string to ensure that each letter gets correctly rotated whilst i is constantly incremented
+        if((inputtext[i] > 90 - rot) && (inputtext[i] <= 90)){ //if statement takes all uppercase letters within the ASCII range of 65-90
             letter = inputtext[i] + rot - 26;
             printf("%c", letter);
             fprintf(output, "%c", letter);
