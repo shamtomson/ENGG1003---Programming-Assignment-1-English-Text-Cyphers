@@ -5,12 +5,12 @@
 #include <string.h>
 
 void UPPERCASE(char str[]);                             //Function prototype for conversion of lowercase input to uppercase letters with the argument of a string 'str[]'
-void rotationencryption(char inputtext[], char rot);    //Function prototype for 'Encryption of a message with a totation cypher given the message text and rotation amount'. Argument is the string 'inputtext[]' and the char variable 'rot'
+void rotationencryption(char inputtext[], char rot);    //Function prototype for 'Encryption of a message with a rototation cypher given the message text and rotation amount'. Argument is the string 'inputtext[]' and the char variable 'rot'
 void rotationdecryption(char inputtext2[], char rot);   //Function prototype for 'Decryption of a message encrypted with a rotation cipher given cipher text and rotation amount'. Argument is the string 'inputtext2[]' and the char variable 'rot'
 void substitutionencryption(char inputtext3[], char substitution[]);  //Function prototype for 'Encryption of a message with a substitution cipher given message text and alphabet substitution'. Argument is the strings 'inputtext3[]' and 'substitution[]' from the 'key.txt' file
 void substitutiondecryption(char inputtext4[], char substitution2[]); //Function prototype for 'Decryption of a message encrypted with a substitution cipher given cipher text and substitutions'. Argument is the strings 'inputtext4[]' and 'substitution2[]' from the 'key.txt' file
 void rotationdecryptionhard(char inputtext5[]);         //Function prototype for 'Decryption of a message encrypted with a rotation cipher given cipher text only'. Argument is the string 'inputtext5[]'
-void substitutiondecryptionhard(char inputtext6[]); 
+void substitutiondecryptionhard(char inputtext6[]);     //Function prototype for 'Decryption of a message encrypted with a substitution cypher given cypher text only. Argument is 'inputtext6[]'
 
 
 int main() {
@@ -574,47 +574,50 @@ void substitutiondecryption(char inputtext4[], char substitution2[]){   //The fu
     fclose(output);              //The fclose() function closes the file 'output.txt' pointed at by output as no further output is being produced
 }
 
-/* TASK 6 FUNCTION */
+/* TASK 5 FUNCTION */
 void rotationdecryptionhard(char inputtext5[]){ //function body for the function rotationdecryptionhard is provided with the argument of inputtext5 that holds the encrypted message provided by the user
   
   char ArrayForMostUsed[1024] = { 0 };          //A char array is initialised with each element equal to 0
                                                 //This array will be used to determine the most common letter of user input from which we can determine the rotation amount
   int i = 0;  //A counter variable i is initialised to 0. This will be used to gain an index for each element of the user input stored in inputtext5
   int max, insidearray, index = 0; //Three variables are declared and made equal to 0
-                                   //index will be used to store the location of the element that holds the most common letter
-  
-
-  for (i = 0; inputtext5[i] != 0; i++) {
-          insidearray = inputtext5[i];
-      ++ArrayForMostUsed[insidearray];
+                                   //The variable 'index' will be used to store the location of the element that holds the most common letter
+                                   //The variable 'insidearray' will be used to initialise elements of the char array 'ArrayForMostUsed' without affecting the original encrypted message or causing compiler warnings/errors
+                                   //The variable max will be used in flow control to ensure that the length of the input message is not surpassed
+  for (i = 0; inputtext5[i] != 0; i++) {  //for loop is created to initialise each element of the char array 'ArrayForMostUsed' for every value of the encrypted message stored in inputtext5[]
+          insidearray = inputtext5[i];    //The variable inside array becomes the value produced a each ('i') location in the char array 'inputtext5' that contains the encrypted message
+      ++ArrayForMostUsed[insidearray];    //'ArrayForMostUsed is incremented with the argument of the value of each each encrypted message character
       }
   
-  max = ArrayForMostUsed[0];
+  max = ArrayForMostUsed[0];             //The variable max is initialised to the first element of ArrayForMostUsed
 
-  for (i = 0; inputtext5[i] != 0; i++) {
+  for (i = 0; inputtext5[i] != 0; i++) { //For loop is created for each element of the encrypted message stored within inputtext5[]    
+          insidearray = inputtext5[i];   //The variable insidearray becomes the value of the encrypted message at 'i' for each iteration of the fopr loop
+      if ((ArrayForMostUsed[insidearray] > max) && (inputtext5[i] != 32)) { //To determine the most used character we make an if statement for every letter within 'ArrayForMostUsed' with the argument of elements of the encrypted message greater than the current max but not equal to the ASCII value for whitespace
           insidearray = inputtext5[i];
-      if ((ArrayForMostUsed[insidearray] > max) && (inputtext5[i] != 32)) {
-          insidearray = inputtext5[i];
-          max = ArrayForMostUsed[insidearray];
-          index = i; } }
-  printf ("The most used character is: %c\n", inputtext5[index]);
-           //we assume the letter most used is either e, or t
-  printf ("The value of most common character is %d\n\n", inputtext5[index]);
+          max = ArrayForMostUsed[insidearray];    //The new max is initialised as the element of ArrayForMostUsed as it was greater than the previous character tested
+          index = i; } }     //At the same time we make the index variable equal to the location inside the char array 'inputtext5' 
+                             //This index value now holds the location for the most common letter within the encrypted message stored in 'inpuuttext5'
+  printf ("The most used character is: %c\n", inputtext5[index]);            //The most used letter is sent to a./.out for debugging purposed and user understanding
+                                                                             //We assume the letter most used is either e, t, or A
+  printf ("The value of most common character is %d\n\n", inputtext5[index]); //The value of the most common letter is important, too, for debugging purposes mostly
   printf("Since E is the most commonly appearing letter in an English sentence, the difference between the value of E and most common letter of the cypher %c could give the rotation amount\n",
-     inputtext5[index]);
+     inputtext5[index]); //printf statement explains to user the compiling processess that are taking place
   printf("The subsequent tests will test for the rotation amount given that the most common letter is not E");
-  printf(" but instead T, A, I, N, O or S\n\n\n");
+  printf(" but instead T, A, I, N, O or S\n\n\n"); //printf statement explains to user the compiling processess that are taking place
   
-  char mostcommonletter = inputtext5[index];
+  char mostcommonletter = inputtext5[index]; //The charcter of the most common letter within the encrypted message is initialised within the variable 'mostcommonletter' to avoid compiler warnings/errors
   
-  int rot;
-  rot = mostcommonletter; //
-  if(rot >= 'E'){
-    rot = rot - 'E'; }   //E is 69 therefore the difference between a letter > E -69 will give the integer rotation amount
-  else{
-    rot = (26 + rot) - 'E'; }    
-  printf("The rotation amount is likely %d if the most common letter is E\n" , rot);
-  rotationdecryption(inputtext5, rot);
+  int rot;                //For simplification and use in the 'rotationdecryption()' function the integer variable rot is declared
+  rot = mostcommonletter; //rot is made equal to the most common letter
+  if(rot >= 'E'){         //To determine the rotation amount (assuming the most common letter was E) we evaluate for if the most common letter was greater than, or less than E
+    rot = rot - 'E'; }    //E is 69 therefore the difference between a letter > E -69 will give the integer rotation amount
+  else{                   //If the most common letter is less than E 
+    rot = (26 + rot) - 'E'; }     //The rotation amount is given by adding 26 to the most common letter and substituting the value of E from the result. This is done to avoid any cut off that may occur since the uppecase letters lie within a limited range in the ASCII table
+  printf("The rotation amount is likely %d if the most common letter is E\n" , rot);   //printf statements aids in user recognition and understanding of compiler processes
+  rotationdecryption(inputtext5, rot); //The encrypted message and newluy discovered rotation amount is sent as function arguments to the function 'rotationdecryption'
+                                       //The function output will then be sent to bot a./.out and the file 'output.txt'
+ //NOTE: The same process of finding the rotation amount occurs for the letters T, A, and subsequent common letters therfore commenting is unnecessary in further lines
  
  //NOW TESTING FOR T 
    
@@ -667,7 +670,8 @@ void rotationdecryptionhard(char inputtext5[]){ //function body for the function
   
 }
 
-void substitutiondecryptionhard(char inputtext6[]){
+/* TASK 6 FUNCTION */
+void substitutiondecryptionhard(char inputtext6[]){ //Function body is provided for 'substitutiondecryptionhard()' with the argument of the char array 'inputtext6[]'
   
   FILE *output;  //This is a pointer to the file 'output.txt' where the encrypted message will be sent to (as well as .a/.out)
   output = fopen("output.txt", "a");  //The pointer output is initialised as the open file 'output.txt' where information will be written to, hence the 'w'  
