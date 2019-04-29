@@ -292,17 +292,18 @@ void substitutionencryption(char inputtext3[], char substitution[]){
     FILE *output;  //This is a pointer to the file 'output.txt' where the encrypted message will be sent to (as well as .a/.out)
     output = fopen("output.txt", "a");  //The pointer output is initialised as the open file 'output.txt' where information will be written to, hence the 'w'  
     printf("\nThe encryption key is: %s\nThe message to be encrypted is: %s\n\n", substitution, inputtext3);
-    int length; //this variable will be used for the length so that function only converts parts of the array within the string lenth
-    length = strlen(inputtext3); //determines the length of string found within the inputtetx array
-    int i = 0; //this is used as a counter for differemt array elements so that they maintain order
-    char letter = 1;
-    printf("Encrypted message is: ");
-    while (i < length) {
-            if (inputtext3[i] == 'A') {
-                    letter = substitution[0];
-                    printf("%c", letter);
-                    fprintf(output, "%c", letter);
-                    i++;}
+    int length;   //this variable will be used for the length so that function only converts parts of the array within the string lenth
+    length = strlen(inputtext3);        //strlen determines the length of string found within the inputtext array
+    int i = 0;   //This is used as a counter for differemt array elements so that they maintain order
+    char letter = 1;                   //The char variable 'letter' aids to simplify the encryption process and acts to transfer an ASCII number to a character
+    printf("Encrypted message is: ");  //printf statement helps the user to undertsand the output produced
+    while (i < length) {               //while loop is created to ensure that each character of the user input is incremented
+            if (inputtext3[i] == 'A') { //An if statement is made for when the user input is equal to the letter A
+                    letter = substitution[0];        //When the user input is equal to A, the letter becomes substituted with the corresponding letter of the substitution ket stored in the string 'substitution[]'
+                    printf("%c", letter);            //The encrypted letter is sent straight to a./.out for the user to read
+                    fprintf(output, "%c", letter);   //The encrypted letter is also sent to the file 'output.txt'
+                    i++;}               //The counting variable i is incremented to run through every element of the user input
+                                        //The if statement is then repeated for every letter of the alphabet so that they are swapped with their corresponding substitution key provided by the user
     else if (inputtext3[i] == 'B') {
         letter = substitution[1];
         printf("%c", letter);
@@ -428,27 +429,27 @@ void substitutionencryption(char inputtext3[], char substitution[]){
         printf("%c", letter);
         fprintf(output, "%c", letter);
         i++;}
-    else if(inputtext3[i] == 32){
-        printf(" ");
-        fprintf(output, " ");
-        i++;}
-    else{
+    else if(inputtext3[i] == 32){ // an else if statement is created for characters of the user input equal to the ASCII value for whitespace to ensure all whitespace is retained
+        printf(" ");              //Where whitespace is found in the input whitespace is printed to a./.out using printf()
+        fprintf(output, " ");     //Whitespace is also printed to the output file 'output.txt'
+        i++;}                     //The counting variable i is incremented to ensure that every element of user input gets encrypted
+    else{ //If the element of user input is neither a letter, nor whitepace then it gets sent to the users output without substitution
         letter = inputtext3[i];
         printf("%c", letter);
         fprintf(output, "%c", letter);
-        i++;}
+        i++;}                     //The counting variable i is incremented to ensure every element of user input gets encrypted
     }
-    fclose(output);
+    fclose(output);               //The file 'output.txt' pointed at by 'output' is closed as mo further information needs to be printed 
 
 }
 
-void substitutiondecryption(char inputtext4[], char substitution2[]){
+void substitutiondecryption(char inputtext4[], char substitution2[]){   //The function definition for substitution decryption is given with arguments of the char array 'inputtext4' and the substitution key 'substitution2'
     
     FILE *output;  //This is a pointer to the file 'output.txt' where the encrypted message will be sent to (as well as .a/.out)
     output = fopen("output.txt", "a");  //The pointer output is initialised as the open file 'output.txt' where information will be written to, hence the 'w'  
     printf("\nThe encryption key is: %s\nThe message to be decrypted is: %s\n\n", substitution2, inputtext4);
     int length; //this variable will be used for the length so that function only converts parts of the array within the string lenth
-    length = strlen(inputtext4); //determines the length of string found within the inputtetx array
+    length = strlen(inputtext4); //determines the length of string found within the inputtext array
     int i = 0; //this is used as a counter for differemt array elements so that they maintain order
                // char letter = 1;
     printf("Decrypted message is: ");
