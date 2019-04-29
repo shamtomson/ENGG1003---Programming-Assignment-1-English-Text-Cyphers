@@ -50,7 +50,7 @@ int main() {
         printf("Enter the rotation amount into 'rotation.txt' file:\n"); //This is a user prompt to enter the desired rotation amount into the file 'rotation.txt'
         rotation = fopen("rotation.txt", "r");    //The pointer 'rotation' is initialised to become information read from the open file 'rotation.txt'
                                                   //The information will be the desired rotation amount of the user (how much each letter will be rotated)
-        fscanf(rotation, "%d", &rot);             //The information read from the file pointed at by 'rotation'becomes stored as a integer variable; 'rot'.
+        fscanf(rotation, "%d", &rot);             //The information read from the file pointed at by 'rotation' becomes stored as a integer variable; 'rot'.
         
         /* STORING USER INPUT MESSAGE FOR ENCRYPTION */
         printf("Enter the message to be encrypted into 'message.txt' file:\n\n"); //This promts user to enter the encrypted message to be decrypted into the file 'message.txt'
