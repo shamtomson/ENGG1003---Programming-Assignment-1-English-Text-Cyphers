@@ -20,7 +20,6 @@ int main() {
     FILE *message;      //Pointer to the file containing the message to be encrypted
     FILE *encryptedmessage;    //Pointer to the file containg an encrypted message to be decrypted
     FILE *thekey;       //Pointer to the file containing the 26 letter key for a substitution cypher
-    FILE *output;       //The result of the coding encryption/decryption will be sent to the file 'output.txt' pointed to by 'output'
     
     /* USER FRIENDLY MENU SYSTEM */
     printf("Please select from the following menu by entering the integer of desired pathway");
@@ -45,8 +44,6 @@ int main() {
    /* TASK 1 */
         case(1):    //Case 1 will run if the user input in 'selection.txt' was '1' and the user selected Encryption of a message with a rotation cypher given the message text and rotation amount
         printf("You selected:\n     1. Encryption of a message encrypted with a rotation cypher given cypher text and rotation amount\n\n"); //printf output assures user that the correct and desired task was selected                                                                                                                                             
-        
-        output = fopen("output.txt", "w");   
         
         /* STORING ROTATION AMOUNT FOR ENCRYPTION */
         int rot; //The variable 'rot' is initialised as an integer that will be used to store the rotation amount to be used in the function 'rotationencryption()' for encryption
@@ -75,8 +72,6 @@ int main() {
         case(2):                       //Case 2 will run if the user input in 'selection.txt' was '2' and the user selected Decryption of a message encrypted with a rotation cipher given cipher text and rotation amount
         printf("You selected:\n     2. Decryption of a message encrypted with a rotation cypher given cypher text and rotation amount\n\n");  //printf output assures user that the correct and desired task was selected                                                                                                                                             
         
-        output = fopen("output.txt", "w");
-         
         /* STORING ROTATION AMOUNT FOR DECRYPTION */
         printf("Enter the rotation amount into 'rotation.txt' file:\n"); //This is a user prompt to enter the rotation decryption amount into the file 'rotation.txt'
         rotation = fopen("rotation.txt", "r"); //The pointer 'rotation' is initialised to become information read from the open file 'rotation.txt'
@@ -98,11 +93,11 @@ int main() {
         rotationdecryption(inputtext2, rot); 
         break;
         
-
+        
+        
         case(3):
         printf("You selected:\n     3. Encryption of a message with a substitution cypher given the message text and alphabet substitution\n\n");
         
-        output = fopen("output.txt", "w");
                                                 /*FINDING SUBSTITUTION KEY */                                      
         char substitution[26]; 
         printf("Enter the substitution key into 'key.txt' file:\n"); 
@@ -128,8 +123,6 @@ int main() {
         case(4):
         printf("You selected:\n     4. Decryption of a message encrypted with a substitution cypher given cypher text and substitutions\n\n");
          
-        output = fopen("output.txt", "w");
-            
         char substitution2[26]; 
         printf("Enter the substitution key into 'key.txt' file:\n"); 
         thekey = fopen("key.txt", "r");
@@ -150,8 +143,6 @@ int main() {
         case(5):
         printf("You selected:\n     5. Decryption of a message encrypted with a rotation cypher given cypher text only\n\n");
         
-        output = fopen("output.txt", "w");
-            
         printf("Enter the encrypted message into 'encryptedmessage.txt' file:\n"); //This promts user to enter the encrypted message to be decrypted
         char inputtext5[1023]; //this is an array of type char which will store each character entered into input
         encryptedmessage = fopen("encryptedmessage.txt", "r");
@@ -165,8 +156,6 @@ int main() {
         
         case(6):
         printf("You selected:\n     6. Decryption of a message encrypted with a substitution cypher given cypher text only\n\n");
-            
-        output = fopen("output.txt", "w");
 
         printf("Enter the encrypted message into 'encryptedmessage.txt' file:\n"); //This promts user to enter the encrypted message to be decrypted
         char inputtext6[1023]; //this is an array of type char which will store each character entered into input
@@ -205,10 +194,11 @@ void UPPERCASE(char str[])
 
 
 /* TASK 1 FUNCTION */
-
 void rotationencryption(char inputtext[], char rot)
 
 {
+    FILE *output;  //This is a pointer to the file 'output.txt' where the encrypted message will be sent to (as well as .a/.out)
+    output = fopen("output.txt", "w");  //The pointer output is initialised as the open file 'output.txt' where information will be written to, hence the 'w'  
     int length; 
     length = strlen(inputtext); 
     printf("The length is: %d\n", length);
@@ -220,28 +210,35 @@ void rotationencryption(char inputtext[], char rot)
         if((inputtext[i] > 90 - rot) && (inputtext[i] <= 90)){ //uppercase is from 65-90 in ASCII table
             letter = inputtext[i] + rot - 26;
             printf("%c", letter);
+            fprintf(output, "%c", letter);
             i++;
         }
         else if((inputtext[i] <= 90 - rot) && (inputtext[i] >= 65)){
             letter = inputtext[i] + rot; 
             printf("%c", letter);
+            fprintf(output, "%c", letter);
             i++;
         }
         else if(inputtext[i] == 32){
             printf(" ");
+            fprintf(output, " ");
             i++;
         }
         else{
             letter = inputtext[i];
             printf("%c", letter);
+            fprintf(output, "%c", letter);
             i++;
         }
     }
+    fclose(output);
 }
 
 /* TASK 2 FUNCTION */
 void rotationdecryption(char inputtext2[], char rot){
-        
+     
+    FILE *output;  //This is a pointer to the file 'output.txt' where the encrypted message will be sent to (as well as .a/.out)
+    output = fopen("output.txt", "a");  //The pointer output is initialised as the open file 'output.txt' where information will be written to, hence the 'w'  
     int length; //this variable will be used for the length so that function only converts parts of the array within the string lenth
     length = strlen(inputtext2); //determines the length of string found within the inputtetx array
     int i = 0; //this is used as a counter for differemt array elements so that they maintain order
@@ -252,28 +249,36 @@ void rotationdecryption(char inputtext2[], char rot){
         if((inputtext2[i] >= 65) && (inputtext2[i] <= 64 + rot)){ //uppercase is from 65-90 in ASCII table
             letter = inputtext2[i] + (26 - rot);
             printf("%c", letter);
+            fprintf(output, "%c", letter);
             i++;
         }
         else if((inputtext2[i] <= 90) && (inputtext2[i] > 64 + rot)){
             letter = inputtext2[i] - rot; 
             printf("%c", letter);
+            fprintf(output, "%c", letter);
             i++;
         }
         else if(inputtext2[i] == 32){
             printf(" ");
+            fprintf(output, " ");
             i++;
         }
         else{
             letter = inputtext2[i];
             printf("%c", letter);
+            fprintf(output, "%c", letter);
             i++;
         }
-}
+    }
+    fprintf(output, "\n");
+    fclose(output);
 } 
 
 /* TASK 3 FUNCTION */
 void substitutionencryption(char inputtext3[], char substitution[]){
     
+    FILE *output;  //This is a pointer to the file 'output.txt' where the encrypted message will be sent to (as well as .a/.out)
+    output = fopen("output.txt", "a");  //The pointer output is initialised as the open file 'output.txt' where information will be written to, hence the 'w'  
     printf("\nThe encryption key is: %s\nThe message to be encrypted is: %s\n\n", substitution, inputtext3);
     int length; //this variable will be used for the length so that function only converts parts of the array within the string lenth
     length = strlen(inputtext3); //determines the length of string found within the inputtetx array
@@ -284,120 +289,151 @@ void substitutionencryption(char inputtext3[], char substitution[]){
             if (inputtext3[i] == 'A') {
                     letter = substitution[0];
                     printf("%c", letter);
+                    fprintf(output, "%c", letter);
                     i++;}
     else if (inputtext3[i] == 'B') {
         letter = substitution[1];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'C') {
         letter = substitution[2];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'D') {
         letter = substitution[3];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'E') {
         letter = substitution[4];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'F') {
         letter = substitution[5];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'G') {
         letter = substitution[6];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'H') {
         letter = substitution[7];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'I') {
         letter = substitution[8];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'J') {
         letter = substitution[9];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'K') {
         letter = substitution[10];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'L') {
         letter = substitution[11];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'M') {
         letter = substitution[12];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'N') {
         letter = substitution[13];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'O') {
         letter = substitution[14];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'P') {
         letter = substitution[15];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'Q') {
         letter = substitution[16];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'R') {
         letter = substitution[17];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'S') {
         letter = substitution[18];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'T') {
         letter = substitution[19];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'U') {
         letter = substitution[20];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'V') {
         letter = substitution[21];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'W') {
         letter = substitution[22];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'X') {
         letter = substitution[23];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'Y') {
         letter = substitution[24];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if (inputtext3[i] == 'Z') {
         letter = substitution[25];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
     else if(inputtext3[i] == 32){
         printf(" ");
+        fprintf(output, " ");
         i++;}
     else{
         letter = inputtext3[i];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}
-}
+    }
+    fclose(output);
 
 }
 
 void substitutiondecryption(char inputtext4[], char substitution2[]){
     
+    FILE *output;  //This is a pointer to the file 'output.txt' where the encrypted message will be sent to (as well as .a/.out)
+    output = fopen("output.txt", "a");  //The pointer output is initialised as the open file 'output.txt' where information will be written to, hence the 'w'  
     printf("\nThe encryption key is: %s\nThe message to be decrypted is: %s\n\n", substitution2, inputtext4);
     int length; //this variable will be used for the length so that function only converts parts of the array within the string lenth
     length = strlen(inputtext4); //determines the length of string found within the inputtetx array
@@ -409,91 +445,119 @@ void substitutiondecryption(char inputtext4[], char substitution2[]){
     while (i <= length) {
     if (inputtext4[i] == substitution2[0]){
         printf("A");
+        fprintf(output, "A");
         i++;}
     else if (inputtext4[i] == substitution2[1]){
         printf("B");
+        fprintf(output, "B");
         i++;}
     else if (inputtext4[i] == substitution2[2]){
         printf("C");
+        fprintf(output, "C");
         i++;}
     else if (inputtext4[i] == substitution2[3]){
         printf("D");
+        fprintf(output, "D");
         i++;}
     else if (inputtext4[i] == substitution2[4]){
         printf("E");
+        fprintf(output, "E");
         i++;}
     else if (inputtext4[i] == substitution2[5]){
         printf("F");
+        fprintf(output, "F");
         i++;}
     else if (inputtext4[i] == substitution2[6]){
         printf("G");
+        fprintf(output, "G");
         i++;}
     else if (inputtext4[i] == substitution2[7]){
         printf("H");
+        fprintf(output, "H");
         i++;}
     else if (inputtext4[i] == substitution2[8]){
         printf("I");
+        fprintf(output, "I");
         i++;}
     else if (inputtext4[i] == substitution2[9]){
         printf("J");
+        fprintf(output, "J");
         i++;}
     else if (inputtext4[i] == substitution2[10]){
         printf("K");
+        fprintf(output, "K");
         i++;}
     else if (inputtext4[i] == substitution2[11]){
         printf("L");
+        fprintf(output, "L");
         i++;}
     else if (inputtext4[i] == substitution2[12]){
         printf("M");
+        fprintf(output, "M");
         i++;}
     else if (inputtext4[i] == substitution2[13]){
         printf("N");
+        fprintf(output, "N");
         i++;}
     else if (inputtext4[i] == substitution2[14]){
         printf("O");
+        fprintf(output, "O");
         i++;}
     else if (inputtext4[i] == substitution2[15]){
         printf("P");
+        fprintf(output, "P");
         i++;}
     else if (inputtext4[i] == substitution2[16]){
         printf("Q");
+        fprintf(output, "Q");
         i++;}
     else if (inputtext4[i] == substitution2[17]){
         printf("R");
+        fprintf(output, "R");
         i++;}
     else if (inputtext4[i] == substitution2[18]){
         printf("S");
+        fprintf(output, "S");
         i++;}
     else if (inputtext4[i] == substitution2[19]){
         printf("T");
+        fprintf(output, "T");
         i++;}
     else if (inputtext4[i] == substitution2[20]){
         printf("U");
+        fprintf(output, "U");
         i++;}
     else if (inputtext4[i] == substitution2[21]){
         printf("V");
+        fprintf(output, "V");
         i++;}
     else if (inputtext4[i] == substitution2[22]){
         printf("W");
+        fprintf(output, "W");
         i++;}
     else if (inputtext4[i] == substitution2[23]){
         printf("X");
+        fprintf(output, "X");
         i++;}
     else if (inputtext4[i] == substitution2[24]){
         printf("Y");
+        fprintf(output, "Y");
         i++;}
     else if (inputtext4[i] == substitution2[25]){
         printf("Z");
+        fprintf(output, "Z");
         i++;}
     else if(inputtext4[i] == 32){
         printf(" ");
+        fprintf(output, " ");
         i++;}
     else{
         letter = inputtext4[i];
         printf("%c", letter);
+        fprintf(output, "%c", letter);
         i++;}  
     }
-
+    fclose(output);
 }
 
 void rotationdecryptionhard(char inputtext5[]){
@@ -587,7 +651,10 @@ void rotationdecryptionhard(char inputtext5[]){
 }
 
 void substitutiondecryptionhard(char inputtext6[]){
-    
+  
+  FILE *output;  //This is a pointer to the file 'output.txt' where the encrypted message will be sent to (as well as .a/.out)
+  output = fopen("output.txt", "a");  //The pointer output is initialised as the open file 'output.txt' where information will be written to, hence the 'w'  
+   
   int length; //this variable will be used for the length so that function only converts parts of the array within the string lenth
   length = strlen(inputtext6); //determines the length of string found within the inputtetx array
   
@@ -621,47 +688,57 @@ void substitutiondecryptionhard(char inputtext6[]){
      while(i <= length){
          if(inputtext6[i] == mostcommonletter){
              printf("E");
+             fprintf(output, "E");
              i++;
              
          }
          else{
              printf("%c", inputtext6[i]);
+             fprintf(output, "%c", inputtext6[i]);
              i++;
          }
      }
      printf("\n\n");
+     fprintf(output, "\n\n");
      printf("The encrypted cypher message with one substitution complete and assuming the most common letter is T  is:\n");
      i = 0;
      while(i <= length){
-         if(inputtext6[i] == 'E'){
+         if(inputtext6[i] == mostcommonletter){
              printf("T");
+             fprintf(output, "T");
              i++;
              
          }
          else{
              printf("%c", inputtext6[i]);
+             fprintf(output, "%c", inputtext6[i]);
              i++;
          }
      }
      printf("\n\n");
+     fprintf(output, "\n\n");
      printf("The encrypted cypher message with one substitution complete and assuming the most common letter is A  is:\n");
      i = 0;
      while(i <= length){
-         if(inputtext6[i] == 'T'){
+         if(inputtext6[i] == mostcommonletter){
              printf("A");
+             fprintf(output, "A");
              i++;
              
          }
          else{
              printf("%c", inputtext6[i]);
+             fprintf(output, "%c", inputtext6[i]);
              i++;
          }
      }
      printf("\n\n");
+     fprintf(output, "\n\n");
   }
   
   else{
       printf("Encrypted cypher message is too small to accurately decrypt, please add more cypher text");
+      fprintf(output, "Encrypted cypher message is too small to accurately decrypt, please add more cypher text");
   }
   
 }
