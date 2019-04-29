@@ -218,50 +218,51 @@ void rotationencryption(char inputtext[], char rot) //Function definition for ro
     printf("The message: %s. With a rotation %d is:\n", inputtext, rot); //printf statement tells the user the rotation and message that has been entered into the input Files to ensure that correct data and information has been compiled 
     
     while(i < length){                  //while loop is made to run through each element of the string to ensure that each letter gets correctly rotated whilst i is constantly incremented
-        if((inputtext[i] > 90 - rot) && (inputtext[i] <= 90)){ //if statement takes all uppercase letters which will be rotated within the ASCII range of capital letters and not be "cut-off" by being over rotated
+        if((inputtext[i] > 90 - rot) && (inputtext[i] <= 90)){ //if statement takes all uppercase letters which will not be rotated within the ASCII range of capital letters and would instead be "cut-off" by being over rotated
             letter = inputtext[i] + rot - 26;                  //The character is rotated beyond the ACSII capital letter range and then substituted 26 values to reach its corresponding rotated letter
             printf("%c", letter);                              //The encrypted letter is sent to a./.out as the variable 'letter'
             fprintf(output, "%c", letter);                     //The encrypted letter is also sent to the file 'output.txt'
             i++;  //i is incremented to ensure that each character of the string is encrypted.                    
         }
-        else if((inputtext[i] <= 90 - rot) && (inputtext[i] >= 65)){
-            letter = inputtext[i] + rot; 
-            printf("%c", letter);
-            fprintf(output, "%c", letter);
+        else if((inputtext[i] <= 90 - rot) && (inputtext[i] >= 65)){     //else if statemnt takes all of the letters that may be rotated and not cut off by recieving a value not within the ASCII range for capital letters (65-90)
+            letter = inputtext[i] + rot;                      //The variable 'letter' becomes the letter + rotation for the position 'i' within the length of the input message to be encrypted. This produces the correctly rotated element of the cypher text
+            printf("%c", letter);                             //The newly encrypted letter is sent to a./.out using the printf statement 
+            fprintf(output, "%c", letter);                    //The letter is also sent to the file 'output' which shows only the new cypher text
             i++;  //i is incremented to ensure that each character of the string is encrypted.
         }
-        else if(inputtext[i] == 32){
-            printf(" ");
-            fprintf(output, " ");
+        else if(inputtext[i] == 32){  //This else if statement ensures that whitespace is not encrypted and is instead maintained
+                                      //Whitespace has the ASCII number of 32, therefore the position of inputtext[i] equal to 32 is an area of whitespace
+            printf(" ");              //We print a single space to a./.out in order to maintain this whitespace
+            fprintf(output, " ");     //Similarly, a space is sent to the file 'output.txt' for user output
             i++;  //i is incremented to ensure that each character of the string is encrypted.
         }
-        else{
-            letter = inputtext[i];
-            printf("%c", letter);
-            fprintf(output, "%c", letter);
+        else{ //If the text is neither a capital letter to be encrypted, nor whitespacem, but is instead a symbol or other character we send this straight back to standard output without encryption
+            letter = inputtext[i];    //The variable 'letter' becomes the character at location 'i'
+            printf("%c", letter);     //This symbol is then sent to a./.out without encryption
+            fprintf(output, "%c", letter);                   //The symbol is also sent to the file 'output.txt'
             i++;  //i is incremented to ensure that each character of the string is encrypted.
         }
     }
-    fclose(output);
+    fclose(output);                   //The file pointed at by output is closed using the 'fclose()' function as no further output is sent from compiler
 }
 
 /* TASK 2 FUNCTION */
-void rotationdecryption(char inputtext2[], char rot){
+void rotationdecryption(char inputtext2[], char rot){                     //The function definition for the 'rotationdecryption()' function is provided which takes the user input of the char array 'inputtext2[]' and integer variable 'rot'
      
     FILE *output;  //This is a pointer to the file 'output.txt' where the encrypted message will be sent to (as well as .a/.out)
     output = fopen("output.txt", "a");  //The pointer output is initialised as the open file 'output.txt' where information will be written to, hence the 'w'  
-    int length; //this variable will be used for the length so that function only converts parts of the array within the string lenth
-    length = strlen(inputtext2); //determines the length of string found within the inputtetx array
-    int i = 0; //this is used as a counter for differemt array elements so that they maintain order
-    char letter = 1; //this variable is not entirely necessary but is used for convinience when converting from ASCII number to letter
-    printf("The inputtext: %s. With rotation %d is\n", inputtext2, rot); //this is used to ensure that the correct input ile has been used for standard input
+    int length;    //This variable will be used for the length so that function only converts parts of the array within the string lenth
+    length = strlen(inputtext2);       //'strlen() determines the length of string found within the inputtext array
+    int i = 0;     //This is used as a counter for differemt array elements so that they maintain order
+    char letter = 1;                   //This variable is not entirely necessary but is used for convinience when converting from ASCII number to letter
+    printf("The inputtext: %s. With rotation %d is\n", inputtext2, rot); //This is used to ensure that the correct input file has been used for standard input
     
-    while(i < length){
-        if((inputtext2[i] >= 65) && (inputtext2[i] <= 64 + rot)){ //uppercase is from 65-90 in ASCII table
-            letter = inputtext2[i] + (26 - rot);
-            printf("%c", letter);
-            fprintf(output, "%c", letter);
-            i++;
+    while(i < length){                 //While loop ensures that every element of the string is decrypted so long as i is constantly incremented
+        if((inputtext2[i] >= 65) && (inputtext2[i] <= 64 + rot)){        //if statement takes all elements of the encrypted message which may be outside of the ASCII range for capital letters when the rotation amount is deducted
+            letter = inputtext2[i] + (26 - rot);                         //Instead of simply deducting the rotation amount we must also add 26 to ensure that the decrypted letter, stored in 'letter' produces the correct letter according to its rotation amount and does not fall outside of the ASCII range for capital letters
+            printf("%c", letter);    //The decrypted letter, stored in 'letter' is sent to a./.out
+            fprintf(output, "%c", letter);                               //The decrypted letter is also sent to the output file 'output.txt' for user convinience
+            i++;                     //The value of i is incremented to ensure that every element is tested
         }
         else if((inputtext2[i] <= 90) && (inputtext2[i] > 64 + rot)){
             letter = inputtext2[i] - rot; 
@@ -748,8 +749,8 @@ void substitutiondecryptionhard(char inputtext6[]){
   }
   
   else{
-      printf("Encrypted cypher message is too small to accurately decrypt, please add more cypher text");
-      fprintf(output, "Encrypted cypher message is too small to accurately decrypt, please add more cypher text");
+      printf("Encrypted cypher message is too small to accurately decrypt, please add more cypher text");          //printf statement promps user to insert more cypher text as more is needed to produce an accurate message that uses the correct substitution key. This is sent to a./.out
+      fprintf(output, "Encrypted cypher message is too small to accurately decrypt, please add more cypher text"); //printf statement promps user to insert more cypher text as more is needed to produce an accurate message that uses the correct substitution key. This is sent to the file 'output.txt'
   }
   
 }
