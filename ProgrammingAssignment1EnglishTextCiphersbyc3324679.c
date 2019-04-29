@@ -220,7 +220,7 @@ void rotationencryption(char inputtext[], char rot) //Function definition for ro
     while(i < length){                  //while loop is made to run through each element of the string to ensure that each letter gets correctly rotated whilst i is constantly incremented
         if((inputtext[i] > 90 - rot) && (inputtext[i] <= 90)){ //if statement takes all uppercase letters which will be rotated within the ASCII range of capital letters and not be "cut-off" by being over rotated
             letter = inputtext[i] + rot - 26;                  //The character is rotated beyond the ACSII capital letter range and then substituted 26 values to reach its corresponding rotated letter
-            printf("%c", letter);                              //The encrypted letter is sent to a./.out
+            printf("%c", letter);                              //The encrypted letter is sent to a./.out as the variable 'letter'
             fprintf(output, "%c", letter);                     //The encrypted letter is also sent to the file 'output.txt'
             i++;  //i is incremented to ensure that each character of the string is encrypted.                    
         }
@@ -228,18 +228,18 @@ void rotationencryption(char inputtext[], char rot) //Function definition for ro
             letter = inputtext[i] + rot; 
             printf("%c", letter);
             fprintf(output, "%c", letter);
-            i++;
+            i++;  //i is incremented to ensure that each character of the string is encrypted.
         }
         else if(inputtext[i] == 32){
             printf(" ");
             fprintf(output, " ");
-            i++;
+            i++;  //i is incremented to ensure that each character of the string is encrypted.
         }
         else{
             letter = inputtext[i];
             printf("%c", letter);
             fprintf(output, "%c", letter);
-            i++;
+            i++;  //i is incremented to ensure that each character of the string is encrypted.
         }
     }
     fclose(output);
