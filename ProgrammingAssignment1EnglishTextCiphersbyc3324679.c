@@ -443,23 +443,24 @@ void substitutionencryption(char inputtext3[], char substitution[]){
 
 }
 
+/* TASK 4 FUNCTION */
 void substitutiondecryption(char inputtext4[], char substitution2[]){   //The function definition for substitution decryption is given with arguments of the char array 'inputtext4' and the substitution key 'substitution2'
     
     FILE *output;  //This is a pointer to the file 'output.txt' where the encrypted message will be sent to (as well as .a/.out)
     output = fopen("output.txt", "a");  //The pointer output is initialised as the open file 'output.txt' where information will be written to, hence the 'w'  
     printf("\nThe encryption key is: %s\nThe message to be decrypted is: %s\n\n", substitution2, inputtext4);
-    int length; //this variable will be used for the length so that function only converts parts of the array within the string lenth
-    length = strlen(inputtext4); //determines the length of string found within the inputtext array
-    int i = 0; //this is used as a counter for differemt array elements so that they maintain order
-               // char letter = 1;
+    int length;   //this variable will be used for the length so that function only converts parts of the array within the string lenth
+    length = strlen(inputtext4);       //determines the length of string found within the inputtext array
+    int i = 0;    //this is used as a counter for differemt array elements so that they maintain order
     printf("Decrypted message is: ");
-    char letter;
+    char letter;  //The variable 'letter' is made to simplify the encryption process and aid in decryption
     
-    while (i <= length) {
-    if (inputtext4[i] == substitution2[0]){
-        printf("A");
-        fprintf(output, "A");
-        i++;}
+    while (i <= length) { // while loop ensures that every i element of the user input is decrypted whilever i is incremented
+    if (inputtext4[i] == substitution2[0]){ //if the encrypted input message is equal to the first element of the substitution stored in 'substitution2' then the decrypted letter would be A
+        printf("A");      //The letter A is printed to a./.out 
+        fprintf(output, "A"); //A is also printed to the file 'output.txt'
+        i++;}             //The counter variable i is incremented to ensure every element of the encrypted message is decrypted
+        //This if statement is repeated over a series of else if statements that match the array element with its corresponding substitution and print the correct decrypted character
     else if (inputtext4[i] == substitution2[1]){
         printf("B");
         fprintf(output, "B");
@@ -560,19 +561,20 @@ void substitutiondecryption(char inputtext4[], char substitution2[]){   //The fu
         printf("Z");
         fprintf(output, "Z");
         i++;}
-    else if(inputtext4[i] == 32){
-        printf(" ");
-        fprintf(output, " ");
-        i++;}
-    else{
+    else if(inputtext4[i] == 32){ //if the element of the encrypted message is whitespace (ASCII value 32) This else if statement ensures that it is preserved
+        printf(" ");              //Whitespace is printed to a./.out using the printf function
+        fprintf(output, " ");     //Whitespace is also printed to the output file
+        i++;}                     //The counting variable i is incremented to ensure that each element is decrypted
+    else{                         //if the encrypted message element is neither a letter nor whitespace it is printed as output without decryption
         letter = inputtext4[i];
-        printf("%c", letter);
-        fprintf(output, "%c", letter);
-        i++;}  
+        printf("%c", letter);    //The symbol is printed without modification to a./.out
+        fprintf(output, "%c", letter);      //The symbol is also printed to the file 'output.txt
+        i++;}                    //The counting variable i is incremented so that every element of the encrypted message is decrypted
     }
-    fclose(output);
+    fclose(output);              //The fclose() function closes the file 'output.txt' pointed at by output as no further output is being produced
 }
 
+/* TASK 6 FUNCTION */
 void rotationdecryptionhard(char inputtext5[]){
   
   char ArrayForMostUsed[1024] = { 0 };
