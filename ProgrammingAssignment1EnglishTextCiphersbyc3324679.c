@@ -262,28 +262,28 @@ void rotationdecryption(char inputtext2[], char rot){                     //The 
             letter = inputtext2[i] + (26 - rot);                         //Instead of simply deducting the rotation amount we must also add 26 to ensure that the decrypted letter, stored in 'letter' produces the correct letter according to its rotation amount and does not fall outside of the ASCII range for capital letters
             printf("%c", letter);    //The decrypted letter, stored in 'letter' is sent to a./.out
             fprintf(output, "%c", letter);                               //The decrypted letter is also sent to the output file 'output.txt' for user convinience
-            i++;                     //The value of i is incremented to ensure that every element is tested
+            i++;                     //The value of i is incremented to ensure that every element is decrypted
         }
-        else if((inputtext2[i] <= 90) && (inputtext2[i] > 64 + rot)){
-            letter = inputtext2[i] - rot; 
-            printf("%c", letter);
-            fprintf(output, "%c", letter);
-            i++;
+        else if((inputtext2[i] <= 90) && (inputtext2[i] > 64 + rot)){    //else if occurs if an element of the encrypted message stored in 'inputtext2' may be rotated back to its original message without being 'cut-off'
+            letter = inputtext2[i] - rot;                                //The decrypted letter is substituted the rotation amount stored in 'rot' in order to find its decrypted letter, stored in 'letter'
+            printf("%c", letter);    //The decrypted letter stored in 'letter' is sent to a./.out
+            fprintf(output, "%c", letter);                               //The decrypted letter is also sent to 'output.txt' pointed at by output
+            i++; //The value of i is incremented to ensure that every element is decrypted
         }
-        else if(inputtext2[i] == 32){
-            printf(" ");
-            fprintf(output, " ");
-            i++;
+        else if(inputtext2[i] == 32){                                    //This else if statement ensures that whitespace is not decrypted and is instead maintained 
+            printf(" ");             //Whitespace has the ASCII number of 32, therefore the position of inputtext[i] equal to 32 is an area of whitespace
+            fprintf(output, " ");    //We print a single space to a./.out in order to maintain this whitespace
+            i++;  //The value of i is incremented to ensure that every element is decrypted
         }
-        else{
-            letter = inputtext2[i];
-            printf("%c", letter);
-            fprintf(output, "%c", letter);
-            i++;
+        else{ //If the text is neither a capital letter to be decrypted, nor whitespace, but is instead a symbol or other character we send this straight back to standard output without decryption
+            letter = inputtext2[i];  //The variable 'letter' becomes the character at location 'i'
+            printf("%c", letter);    //This symbol is then sent to a./.out without encryption
+            fprintf(output, "%c", letter);                               //The symbol is also sent to the file 'output.txt'
+            i++;  //The value of i is incremented to ensure that every element is decrypted
         }
     }
-    fprintf(output, "\n");
-    fclose(output);
+    fprintf(output, "\n");           //A newline is printed to the file output for when the function from task 5 is called which used the rotationdecryption function several times, this ensures there is a newline beofre each possible output
+    fclose(output);                  //The output file is closed as no further information needs to be printed
 } 
 
 /* TASK 3 FUNCTION */
