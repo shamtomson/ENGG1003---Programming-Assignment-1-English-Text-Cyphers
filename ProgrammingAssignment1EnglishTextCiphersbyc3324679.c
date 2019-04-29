@@ -575,11 +575,13 @@ void substitutiondecryption(char inputtext4[], char substitution2[]){   //The fu
 }
 
 /* TASK 6 FUNCTION */
-void rotationdecryptionhard(char inputtext5[]){
+void rotationdecryptionhard(char inputtext5[]){ //function body for the function rotationdecryptionhard is provided with the argument of inputtext5 that holds the encrypted message provided by the user
   
-  char ArrayForMostUsed[1024] = { 0 };
-  int i = 0;
-  int max, insidearray, index = 0;
+  char ArrayForMostUsed[1024] = { 0 };          //A char array is initialised with each element equal to 0
+                                                //This array will be used to determine the most common letter of user input from which we can determine the rotation amount
+  int i = 0;  //A counter variable i is initialised to 0. This will be used to gain an index for each element of the user input stored in inputtext5
+  int max, insidearray, index = 0; //Three variables are declared and made equal to 0
+                                   //index will be used to store the location of the element that holds the most common letter
   
 
   for (i = 0; inputtext5[i] != 0; i++) {
@@ -673,7 +675,9 @@ void substitutiondecryptionhard(char inputtext6[]){
   int length; //this variable will be used for the length so that function only converts parts of the array within the string lenth
   length = strlen(inputtext6); //determines the length of string found within the inputtetx array
   
-  if(length > 30){
+  
+  if(length > 30){ //if the length is greater than 30 it is likely the most common letter will be equal to E, T or A
+      //Note: The following 22 lines of code were used in 'rotationdecryptionhard()' function. Here contains all the commenting necessary to understand the code
       char ArrayForMostUsed2[1024] = { 0 };
       int i = 0;
       int max, insidearray, index = 0;
@@ -697,24 +701,25 @@ void substitutiondecryptionhard(char inputtext6[]){
       printf("Since the encrypted message is greater than 30 characters it is likely the most common letter of the cypher %c has been substituted for either E, T, or A as these are the most commonly appearing letters in an English sentence.\n\n",
      inputtext6[index]);
      
-     char mostcommonletter = inputtext6[index];
-     printf("The encrypted cypher message with one substitution complete and assuming the most common letter is E  is:\n");
-     i = 0;
-     while(i <= length){
-         if(inputtext6[i] == mostcommonletter){
-             printf("E");
-             fprintf(output, "E");
-             i++;
+     char mostcommonletter = inputtext6[index]; //By creating a char variable 'mostcommonletter' that is equal to the value of what was found to be the most common character we avoid compiler warnings for using an integer inside a char array
+     printf("The encrypted cypher message with one substitution complete and assuming the most common letter is E  is:\n"); //Printf() statement aids user in understanding the output produced
+     i = 0; //The counting variable i is made = to 0 to ensure every element of the user input is decrypted
+     while(i <= length){ //The while loop will run through every element of the encrypted message whilever i is incremented to a value less than the user input
+         if(inputtext6[i] == mostcommonletter){ //if statement takes any characters within inputtext6 (encrypted message) that are equal to the most common letter
+             printf("E");            //The letter E is then printed instead of the original value since E is the most common letter in an english statement
+             fprintf(output, "E");   //'E' is also printed to the file 'output.txt'
+             i++;                    //The value of i is incremented so that the every element of the user input is tested
              
          }
-         else{
-             printf("%c", inputtext6[i]);
-             fprintf(output, "%c", inputtext6[i]);
-             i++;
+         else{ //For majority of the user input not equal to the mostcommon letter we will print the original encrypted input of the user
+             printf("%c", inputtext6[i]);           //The encrypted letter. symbol, or whitespace is printed to a./.out
+             fprintf(output, "%c", inputtext6[i]);  //The encrypted letter, symbol or whitespace is also printed to the file 'output.txt'
+             i++;                    //The value of i is incremented to ensure that all elements of the encrypted message are tested
          }
      }
-     printf("\n\n");
-     fprintf(output, "\n\n");
+     printf("\n\n");                 //Two spaces are printed to a./.out to make the output more readable
+     fprintf(output, "\n\n");        //Two spaces are also printed to the output file to make output more readable
+     //This process is repeated twice for the letters T and A since T is the seconf most common letter in an english sentence followed by A
      printf("The encrypted cypher message with one substitution complete and assuming the most common letter is T  is:\n");
      i = 0;
      while(i <= length){
