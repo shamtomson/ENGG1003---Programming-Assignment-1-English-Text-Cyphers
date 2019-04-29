@@ -218,11 +218,11 @@ void rotationencryption(char inputtext[], char rot) //Function definition for ro
     printf("The message: %s. With a rotation %d is:\n", inputtext, rot); //printf statement tells the user the rotation and message that has been entered into the input Files to ensure that correct data and information has been compiled 
     
     while(i < length){                  //while loop is made to run through each element of the string to ensure that each letter gets correctly rotated whilst i is constantly incremented
-        if((inputtext[i] > 90 - rot) && (inputtext[i] <= 90)){ //if statement takes all uppercase letters within the ASCII range of 65-90
-            letter = inputtext[i] + rot - 26;
-            printf("%c", letter);
-            fprintf(output, "%c", letter);
-            i++;
+        if((inputtext[i] > 90 - rot) && (inputtext[i] <= 90)){ //if statement takes all uppercase letters which will be rotated within the ASCII range of capital letters and not be "cut-off" by being over rotated
+            letter = inputtext[i] + rot - 26;                  //The character is rotated beyond the ACSII capital letter range and then substituted 26 values to reach its corresponding rotated letter
+            printf("%c", letter);                              //The encrypted letter is sent to a./.out
+            fprintf(output, "%c", letter);                     //The encrypted letter is also sent to the file 'output.txt'
+            i++;  //i is incremented to ensure that each character of the string is encrypted.                    
         }
         else if((inputtext[i] <= 90 - rot) && (inputtext[i] >= 65)){
             letter = inputtext[i] + rot; 
